@@ -1,6 +1,6 @@
 # Snake Game
 
-Classic Snake Game build with javascript and the following functionalities:  
+Classic Snake Game build with html, css and javascript with the following functionalities:  
 
 - Keeping the score and the highest score ever achieved.
 - Use the local storage in the user's browser to store and retrieve the value of the highest score.
