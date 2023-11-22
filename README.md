@@ -2,7 +2,8 @@
 
 Classic Snake Game build with javascript and the following functionalities:  
 
-- Keeping the score and the highest score ever achieve using the local storage to store the value in the user's browser.
+- Keeping the score and the highest score ever achieved.
+- Use the local storage in the user's browser to store and retrieve the value of the highest score.
 - Updating the score and highest score accordingly.
 - Resetting the game after it has ended.  
 
