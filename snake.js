@@ -15,7 +15,7 @@ let directionX = 10;
 let directionY = 0; 
 let foodX, foodY;
 let score = 0;
-let highestScore;
+let highestScore = localStorage.getItem('highestScore') || 0;
 let gameInterval;
 
 function moveSnake() {
@@ -43,13 +43,6 @@ function generateFoodCoordinates() {
 function drawFood() {
   ctx.fillStyle = '#dc143c';
   ctx.fillRect(foodX, foodY, 10, 10);
-}
-
-function setGameOver() {
-  gameOver = true;
-  clearInterval(gameInterval);
-  gameOverElement.style.display = 'flex';
-  gameStateElement.innerHTML = 'Game Over!';
 }
 
 function checkForCollisions() {
@@ -88,12 +81,48 @@ function startGame() {
   return gameInterval;
 }
 
+function setGameOver() {
+  gameOver = true;
+  clearInterval(gameInterval);
+  gameOverElement.style.display = 'flex';
+  gameStateElement.innerHTML = 'Game Over!';
+  if (score > highestScore) {
+    localStorage.setItem('highestScore', score);
+    highestScore = score;
+    document.querySelector('.highest-score').innerHTML = `Highest Score: ${highestScore}`
+  }
+}
+
+function resetGame() {
+  clearInterval(gameInterval);
+  snakeSegments.length = 0;
+  snakeLength = 1;
+  snakeX = 0;
+  snakeY = 0;
+  directionX = 10;
+  directionY = 0;
+  score = 0;
+  scoreElement.innerHTML = `Score: ${score}`;
+  generateFoodCoordinates();
+  drawFood();
+  gameOverElement.style.display = 'none';
+  gameStateElement.innerHTML = '';
+  gameOver = false;
+  gameInterval = setInterval(gameLoop, 100);
+}
+
 window.addEventListener('load', () => {
   if (!gameOver) {
     generateFoodCoordinates();
     startGame();
   }
+
+  if (highestScore > 0) {
+    document.querySelector('.highest-score').innerHTML = `Highest Score: ${highestScore}`
+  }
 });
+
+resetButton.addEventListener('click', resetGame);
 
 document.addEventListener('keydown', (e) => {
   switch (e.key) {
@@ -122,11 +151,4 @@ document.addEventListener('keydown', (e) => {
       }
       break;
   }
-});
-
-resetButton.addEventListener('click', () => {
-  gameOverElement.style.display = 'none';
-  gameOver = false;
-  generateFoodCoordinates();
-  startGame();
 });
